@@ -4,6 +4,9 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
+import io.fabric8.kubernetes.api.model.*;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import org.apache.maven.cli.MavenCli;
 import org.eclipse.jgit.api.Git;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +80,26 @@ public class MyResource {
         String imageId = dockerClient.buildImageCmd(baseDir).withTag("konstantleverans").exec(callback).awaitImageId();
         return dockerClient.inspectImageCmd(imageId).exec().getRepoTags().get(0);
 
+    }
+
+
+    @RequestMapping("/deploy")
+    public void deployu(){
+        KubernetesClient client = new DefaultKubernetesClient();
+        Container container = new Container();
+        container.setImage("nginx");
+        container.setName("nginx");
+        PodSpec podspec = new PodSpecBuilder()
+                .withContainers(container)
+                .build();
+        Pod pod = new PodBuilder()
+                .withSpec(podspec)
+                .withNewMetadata()
+                    .withName("nginx")
+                .endMetadata()
+                .build();
+        Pod pod1 = client.pods().inNamespace("default").create(pod);
+        System.out.println(pod1.getStatus());
     }
 
 }

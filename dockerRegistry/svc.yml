@@ -1,0 +1,19 @@
+ # svc.yml
+ kind:       Service
+ apiVersion: v1
+ metadata:
+   name: registry
+   labels:
+     app: registry
+ spec:
+   type: LoadBalancer
+   selector:
+     app: registry
+   ports:
+     - name:       client
+       port:       5000
+       targetPort: client
+ status:
+   loadBalancer:
+     ingress:
+       - ip: 0.0.0.0
