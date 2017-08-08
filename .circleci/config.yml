@@ -39,10 +39,7 @@ jobs:
         
       # run tests!
       - run: mvn test
-  deployment:
-    production:
-      branch: master
-      commands:
-        - echo "hello"
-        - echo "done"
+      - deploy:
+          name: "Deploy stuff"
+          command: echo "mjao"
 
