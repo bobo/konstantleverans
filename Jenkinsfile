@@ -1,8 +1,8 @@
 pipeline {
-    agent {
-        label 'kubernetes-agent'
+    agent {       
         docker {
             image 'maven:3-alpine'
+            label 'kubernetes-agent'
         }
     }
 
