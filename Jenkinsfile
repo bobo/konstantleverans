@@ -1,12 +1,13 @@
 pipeline {
-    agent none
+    agent 'kubernetes-agent'
 
     stages {
         stage("run maven test") {
-            agent { docker 'maven:3-alpine' }
-            steps {
-               sh "mvn test"
-            }   
+            container(name: 'golang') {
+                steps {
+                   sh "mvn test"
+                } 
+            }
         }
     }
 }
