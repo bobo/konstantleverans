@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("run maven test") {
             steps {
-                container(name: 'maven:alpine') {   
+                container(name: 'maven') {   
                    sh "mvn test"
                 } 
             }
