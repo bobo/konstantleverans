@@ -1,10 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        label 'kubernetes-agent'
+        docker {
+            image 'maven:3-alpine'
+        }
+    }
 
-    docker.image('maven:alpine').inside {
-
+    stages {
         stage("run maven test") {
           sh "mvn test"
         }
+
     }
 }
