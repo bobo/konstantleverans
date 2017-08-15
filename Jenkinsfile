@@ -1,9 +1,9 @@
 pipeline {
     agent any
     stages {
-        container(name: 'maven:alpine') {   
-            stage("run maven test") {
-                steps {
+        stage("run maven test") {
+            steps {
+                container(name: 'maven:alpine') {   
                    sh "mvn test"
                 } 
             }
