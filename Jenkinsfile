@@ -1,13 +1,9 @@
 pipeline {
-    agent any
+    agent { docker 'maven:3-alpine' }
     stages {
-        stage("run maven test") {
+        stage('Example Build') {
             steps {
-                kubernetes.pod('buildpod').withImage('maven').inside {
-                    //for a single container you can avoid the .withNewContainer() thing.
-                    git 'https://github.com/bobo/konstantleverans.git'
-                    sh 'mvn clean install'
-                }
+                sh 'mvn -B clean verify'
             }
         }
     }
