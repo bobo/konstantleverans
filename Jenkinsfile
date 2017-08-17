@@ -3,9 +3,11 @@ pipeline {
     stages {
         stage("run maven test") {
             steps {
-                container(name: 'maven') {   
-                   sh "mvn test"
-                } 
+                kubernetes.pod('buildpod').withImage('maven').inside {
+                    //for a single container you can avoid the .withNewContainer() thing.
+                    git 'https://github.com/bobo/konstantleverans.git'
+                    sh 'mvn clean install'
+                }
             }
         }
     }
